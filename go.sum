@@ -1,0 +1,4 @@
+github.com/go-redis/redis v6.15.9+incompatible h1:K0pv1D7EQUjfyoMql+r/jZqCLizCGKFlFgcHWWmHQjg=
+github.com/go-redis/redis v6.15.9+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
+github.com/helloworlddan/tortune v0.0.0-20221201214459-28c2ddddccb3 h1:x7q4BALwtm17/k/ENR4J/12FtBT3UBlCyaEyY/zL4n8=
+github.com/helloworlddan/tortune v0.0.0-20221201214459-28c2ddddccb3/go.mod h1:bpttAJW6z/sMAXk/vAjTezxIjiPOzgerRAS8ViYNR68=
