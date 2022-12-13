@@ -1,6 +1,26 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image', '.' ]
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image']
-images: ['us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image']
+- id: Building container image
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:git-$SHORT_SHA', '.' , "--network=cloudbuild"]
+
+- id: Tagging container image
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'tag', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:git-$SHORT_SHA', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest' ]
+  
+- id: Pushing container image
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'push', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:git-$SHORT_SHA']
+
+- id: Creating deployment release
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+  - '-eEuo'
+  - 'pipefail'
+  - '-c'
+  - |-
+    gcloud deploy releases create release-$SHORT_SHA --delivery-pipeline my-service --images my-image=europe-west4-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:git-$SHORT_SHA --region us-central1
+
+images:
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:git-$SHORT_SHA'
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/my-image:latest'
