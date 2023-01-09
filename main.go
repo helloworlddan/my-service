@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/helloworlddan/tortune"
+	"github.com/helloworlddan/tortune/tortune"
 )
 
 func main() {
